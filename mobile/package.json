@@ -1,0 +1,28 @@
+{
+  "name": "gac-bartender-mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "lsof -ti TCP:8081 -sTCP:LISTEN 2>/dev/null | xargs -r kill 2>/dev/null; echo '✓ Port 8081 ready'",
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "expo": "~54.0.33",
+    "expo-build-properties": "~1.0.10",
+    "expo-status-bar": "~3.0.9",
+    "fuse.js": "^7.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-web": "^0.21.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "eas-cli": "^18.5.0"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "GAC Bartender",
+    "slug": "gac-bartender",
+    "owner": "danlnguyen",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f0a06"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.garlicandchives.bartender"
+    },
+    "android": {
+      "package": "com.garlicandchives.bartender",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f0a06"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-build-properties"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": ""
+      }
+    }
+  }
+}

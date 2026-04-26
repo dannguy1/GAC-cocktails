@@ -1,0 +1,26 @@
+{
+  "name": "gac-cocktails",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bartender cocktail recipe assistant for Garlic & Chives",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/kill-port.js",
+    "dev": "vite",
+    "build": "npm run build:data && vite build",
+    "prestart": "node scripts/kill-port.js",
+    "build:data": "node --env-file=.env scripts/build-data.js",
+    "build:mobile-data": "npm run build:data && node scripts/build-mobile-data.js",
+    "build:all-data": "npm run build:data && node scripts/build-mobile-data.js",
+    "watch:data": "node --env-file=.env scripts/watch-data.js",
+    "preview": "vite preview",
+    "start": "vite preview --port ${PORT:-8510}"
+  },
+  "dependencies": {
+    "fuse.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vite-plugin-pwa": "^0.21.0"
+  }
+}
