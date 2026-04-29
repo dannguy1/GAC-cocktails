@@ -9,20 +9,24 @@ import RecipeView from './components/RecipeView';
 import RecentStrip from './components/RecentStrip';
 import SettingsModal from './components/SettingsModal';
 import { getCocktailById } from './services/search';
-import { loadRecentDrinks, saveRecentDrink, loadWebHost } from './services/storage';
+import { loadRecentDrinks, saveRecentDrink, loadWebHost, getWebHost } from './services/storage';
 import { COLORS, FONTS } from './theme';
 
 export default function App() {
     const [selectedCocktail, setSelectedCocktail] = useState(null);
     const [recentIds, setRecentIds] = useState([]);
     const [showSettings, setShowSettings] = useState(false);
+    const [webHost, setWebHost] = useState('');
     const recentIdsRef = useRef(recentIds);
     recentIdsRef.current = recentIds;
     const { width, height } = useWindowDimensions();
     const isLandscape = width > height;
 
     useEffect(() => {
-        loadWebHost().then(() => loadRecentDrinks()).then(setRecentIds);
+        loadWebHost().then(host => {
+            setWebHost(host);
+            return loadRecentDrinks();
+        }).then(setRecentIds);
     }, []);
 
     const handleSelect = useCallback(async (cocktail) => {
@@ -59,11 +63,15 @@ export default function App() {
                             <Text style={styles.settingsIcon}>⚙️</Text>
                         </TouchableOpacity>
                     </View>
-                    <SettingsModal visible={showSettings} onClose={() => setShowSettings(false)} />
+                    <SettingsModal
+                        visible={showSettings}
+                        onClose={() => setShowSettings(false)}
+                        onSave={setWebHost}
+                    />
 
                     {/* Main content — split view for recipe */}
                     <View style={styles.content}>
-                        <RecipeView cocktail={selectedCocktail} />
+                        <RecipeView cocktail={selectedCocktail} webHost={webHost} />
                     </View>
 
                     {/* Recent drinks footer */}

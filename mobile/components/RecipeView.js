@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import IngredientChecklist from './IngredientChecklist';
-import { resolveImageUrl } from '../services/storage';
 import { COLORS, FONTS } from '../theme';
 
-export default function RecipeView({ cocktail }) {
+export default function RecipeView({ cocktail, webHost }) {
     const { width, height } = useWindowDimensions();
     const isLandscape = width > height;
+
+    function resolveImage(path) {
+        if (!path || !webHost) return null;
+        if (path.startsWith('http')) return path;
+        return `${webHost}${path}`;
+    }
 
     if (!cocktail) {
         return (
@@ -63,7 +68,7 @@ export default function RecipeView({ cocktail }) {
         return (
             <View style={styles.splitRow}>
                 <ScrollView style={[styles.panel, styles.panelLeft]}>
-                    <Image source={{ uri: resolveImageUrl(cocktail.image) }} style={styles.image} resizeMode="contain" />
+                    <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.image} resizeMode="contain" />
                     {drinkInfo}
                 </ScrollView>
                 <View style={styles.verticalDivider} />
@@ -77,7 +82,7 @@ export default function RecipeView({ cocktail }) {
     // Portrait: stack vertically
     return (
         <ScrollView style={styles.portrait}>
-            <Image source={{ uri: resolveImageUrl(cocktail.image) }} style={styles.portraitImage} resizeMode="contain" />
+            <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.portraitImage} resizeMode="contain" />
             {drinkInfo}
             {recipeContent}
         </ScrollView>

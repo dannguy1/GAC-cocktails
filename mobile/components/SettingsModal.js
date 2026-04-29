@@ -6,7 +6,7 @@ import {
 import { getWebHost, saveWebHost } from '../services/storage';
 import { COLORS, FONTS } from '../theme';
 
-export default function SettingsModal({ visible, onClose }) {
+export default function SettingsModal({ visible, onClose, onSave }) {
     const [url, setUrl] = useState('');
 
     useEffect(() => {
@@ -17,6 +17,7 @@ export default function SettingsModal({ visible, onClose }) {
         const trimmed = url.trim();
         if (!trimmed) return;
         await saveWebHost(trimmed);
+        onSave?.(trimmed);
         onClose();
     };
 
