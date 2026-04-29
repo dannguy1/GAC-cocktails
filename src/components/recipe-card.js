@@ -1,4 +1,5 @@
 import './ingredient-checklist.js';
+import { OrderService } from '../services/order-service.js';
 
 function esc(str) {
   const d = document.createElement('div');
@@ -55,6 +56,8 @@ const STYLES = `
     flex-direction: column;
     border-right: 1px solid var(--color-border);
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 
   .drink-image-wrap {
@@ -150,6 +153,8 @@ const STYLES = `
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
 
   .panel-section {
@@ -182,21 +187,65 @@ const STYLES = `
     .split-view {
       flex-direction: column;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
     }
 
     .panel-left {
       border-right: none;
       border-bottom: 1px solid var(--color-border);
       overflow-y: visible;
+      -webkit-overflow-scrolling: auto;
     }
 
     .panel-right {
       overflow-y: visible;
+      -webkit-overflow-scrolling: auto;
     }
 
     .drink-image-wrap {
       max-height: 280px;
     }
+  }
+
+  /* ── Order Button ──────────────────────────────────── */
+  .btn-order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    padding: 14px var(--spacing-lg);
+    margin-top: var(--spacing-md);
+    background: var(--color-brand-gold);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    min-height: var(--touch-target-min);
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  .btn-order:hover {
+    background: var(--color-brand-gold-light);
+  }
+
+  .btn-order:active {
+    transform: scale(0.97);
+  }
+
+  .btn-order.ordered {
+    background: var(--color-brand-green);
+    pointer-events: none;
+  }
+
+  .btn-order-icon {
+    font-size: 1.2rem;
   }
 `;
 
@@ -253,6 +302,9 @@ export class RecipeCard extends HTMLElement {
             ${c.glass ? `<div class="meta-row"><strong>Glass:</strong> ${esc(c.glass)}</div>` : ''}
             ${c.garnish ? `<div class="meta-row"><strong>Garnish:</strong> ${esc(c.garnish)}</div>` : ''}
             ${c.description ? `<p class="drink-description">${esc(c.description)}</p>` : ''}
+            <button class="btn-order" aria-label="Order ${esc(c.name)}">
+              <span class="btn-order-icon">🛒</span> Order
+            </button>
           </div>
         </div>
 
@@ -278,6 +330,19 @@ export class RecipeCard extends HTMLElement {
       const checklist = this.shadowRoot.querySelector('gac-ingredient-checklist');
       checklist.cocktailId = c.id;
       checklist.ingredients = c.ingredients;
+    }
+
+    const orderBtn = this.shadowRoot.querySelector('.btn-order');
+    if (orderBtn) {
+      orderBtn.addEventListener('click', () => {
+        OrderService.addOrder(c);
+        orderBtn.classList.add('ordered');
+        orderBtn.innerHTML = `<span class="btn-order-icon">✓</span> Ordered`;
+        setTimeout(() => {
+          orderBtn.classList.remove('ordered');
+          orderBtn.innerHTML = `<span class="btn-order-icon">🛒</span> Order`;
+        }, 2000);
+      });
     }
   }
 }
