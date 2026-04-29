@@ -21,7 +21,7 @@
       "package": "com.garlicandchives.bartender",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0f0a06"
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
     },
@@ -29,7 +29,14 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-build-properties"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
     View, Text, StyleSheet, Platform, StatusBar,
-    useWindowDimensions, Keyboard, TouchableWithoutFeedback,
+    useWindowDimensions, Keyboard, TouchableWithoutFeedback, TouchableOpacity,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import SearchBar from './components/SearchBar';
 import RecipeView from './components/RecipeView';
 import RecentStrip from './components/RecentStrip';
+import SettingsModal from './components/SettingsModal';
 import { getCocktailById } from './services/search';
 import { loadRecentDrinks, saveRecentDrink, loadWebHost } from './services/storage';
 import { COLORS, FONTS } from './theme';
@@ -14,6 +15,7 @@ import { COLORS, FONTS } from './theme';
 export default function App() {
     const [selectedCocktail, setSelectedCocktail] = useState(null);
     const [recentIds, setRecentIds] = useState([]);
+    const [showSettings, setShowSettings] = useState(false);
     const recentIdsRef = useRef(recentIds);
     recentIdsRef.current = recentIds;
     const { width, height } = useWindowDimensions();
@@ -48,7 +50,16 @@ export default function App() {
                         <View style={styles.searchWrap}>
                             <SearchBar onSelect={handleSelect} />
                         </View>
+                        <TouchableOpacity
+                            style={styles.settingsBtn}
+                            onPress={() => setShowSettings(true)}
+                            accessibilityLabel="Settings"
+                            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                            <Text style={styles.settingsIcon}>⚙️</Text>
+                        </TouchableOpacity>
                     </View>
+                    <SettingsModal visible={showSettings} onClose={() => setShowSettings(false)} />
 
                     {/* Main content — split view for recipe */}
                     <View style={styles.content}>
@@ -92,6 +103,8 @@ const styles = StyleSheet.create({
         color: COLORS.goldLight,
     },
     searchWrap: { flex: 1 },
+    settingsBtn: { padding: 4, minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
+    settingsIcon: { fontSize: 22 },
 
     // Content
     content: { flex: 1 },
