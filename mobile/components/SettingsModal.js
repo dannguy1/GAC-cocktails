@@ -49,10 +49,12 @@ export default function SettingsModal({ visible, onClose, onSave }) {
                         selectTextOnFocus
                     />
                     <View style={styles.actions}>
-                        <TouchableOpacity style={styles.btnCancel} onPress={onClose}>
+                        <TouchableOpacity style={styles.btnCancel} onPress={onClose}
+                            accessibilityLabel="Cancel" accessibilityRole="button">
                             <Text style={styles.btnCancelText}>Cancel</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnSave} onPress={handleSave}>
+                        <TouchableOpacity style={styles.btnSave} onPress={handleSave}
+                            accessibilityLabel="Save settings" accessibilityRole="button">
                             <Text style={styles.btnSaveText}>Save</Text>
                         </TouchableOpacity>
                     </View>

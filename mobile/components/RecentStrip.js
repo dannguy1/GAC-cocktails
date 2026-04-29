@@ -20,8 +20,13 @@ export default function RecentStrip({ recentCocktails, onSelect }) {
                         style={styles.card}
                         onPress={() => onSelect(item)}
                         activeOpacity={0.7}
+                        accessibilityLabel={`View ${item.name} recipe`}
+                        accessibilityRole="button"
                     >
-                        <Image source={{ uri: resolveImageUrl(item.image) }} style={styles.thumb} />
+                        {resolveImageUrl(item.image)
+                            ? <Image source={{ uri: resolveImageUrl(item.image) }} style={styles.thumb} />
+                            : <View style={styles.thumb} />
+                        }
                         <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
                     </TouchableOpacity>
                 )}

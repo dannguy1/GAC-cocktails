@@ -67,12 +67,15 @@ export default function RecipeView({ cocktail, webHost }) {
     if (isLandscape) {
         return (
             <View style={styles.splitRow}>
-                <ScrollView style={[styles.panel, styles.panelLeft]}>
-                    <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.image} resizeMode="contain" />
+                <ScrollView style={[styles.panel, styles.panelLeft]} keyboardShouldPersistTaps="handled">
+                    {resolveImage(cocktail.image)
+                        ? <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.image} resizeMode="contain" />
+                        : <View style={styles.image} />
+                    }
                     {drinkInfo}
                 </ScrollView>
                 <View style={styles.verticalDivider} />
-                <ScrollView style={[styles.panel, styles.panelRight]}>
+                <ScrollView style={[styles.panel, styles.panelRight]} keyboardShouldPersistTaps="handled">
                     {recipeContent}
                 </ScrollView>
             </View>
@@ -81,8 +84,11 @@ export default function RecipeView({ cocktail, webHost }) {
 
     // Portrait: stack vertically
     return (
-        <ScrollView style={styles.portrait}>
-            <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.portraitImage} resizeMode="contain" />
+        <ScrollView style={styles.portrait} keyboardShouldPersistTaps="handled">
+            {resolveImage(cocktail.image)
+                ? <Image source={{ uri: resolveImage(cocktail.image) }} style={styles.portraitImage} resizeMode="contain" />
+                : <View style={styles.portraitImage} />
+            }
             {drinkInfo}
             {recipeContent}
         </ScrollView>

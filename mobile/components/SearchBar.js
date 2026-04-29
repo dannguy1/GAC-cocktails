@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, FlatList, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { searchCocktails } from '../services/search';
 import { resolveImageUrl } from '../services/storage';
@@ -9,6 +9,8 @@ export default function SearchBar({ onSelect }) {
     const [results, setResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
     const timerRef = useRef(null);
+
+    useEffect(() => () => clearTimeout(timerRef.current), []);
 
     const handleChange = (text) => {
         setQuery(text);
@@ -54,8 +56,13 @@ export default function SearchBar({ onSelect }) {
                                 style={styles.resultItem}
                                 onPress={() => handleSelect(item)}
                                 activeOpacity={0.7}
+                                accessibilityLabel={`Select ${item.name}`}
+                                accessibilityRole="button"
                             >
-                                <Image source={{ uri: resolveImageUrl(item.image) }} style={styles.thumb} />
+                                {resolveImageUrl(item.image)
+                                    ? <Image source={{ uri: resolveImageUrl(item.image) }} style={styles.thumb} />
+                                    : <View style={styles.thumb} />
+                                }
                                 <Text style={styles.resultName}>{item.name}</Text>
                             </TouchableOpacity>
                         )}

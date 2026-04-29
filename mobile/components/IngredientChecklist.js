@@ -32,10 +32,13 @@ export default function IngredientChecklist({ cocktailId, ingredients }) {
                 const isChecked = checked.has(i);
                 return (
                     <TouchableOpacity
-                        key={i}
+                        key={ing.raw}
                         style={styles.row}
                         onPress={() => toggle(i)}
                         activeOpacity={0.7}
+                        accessibilityLabel={`${isChecked ? 'Uncheck' : 'Check'} ${ing.raw}`}
+                        accessibilityRole="checkbox"
+                        accessibilityState={{ checked: isChecked }}
                     >
                         <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
                             {isChecked && <Text style={styles.checkmark}>✓</Text>}

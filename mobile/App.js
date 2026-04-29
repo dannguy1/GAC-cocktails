@@ -43,9 +43,9 @@ export default function App() {
         <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
             <StatusBar barStyle="light-content" backgroundColor={COLORS.surface} />
 
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.container}>
-                    {/* Header */}
+            <View style={styles.container}>
+                {/* Header — tap anywhere on header to dismiss keyboard */}
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.header}>
                         <View style={styles.brand}>
                             <Text style={styles.brandIcon}>🍸</Text>
@@ -63,21 +63,21 @@ export default function App() {
                             <Text style={styles.settingsIcon}>⚙️</Text>
                         </TouchableOpacity>
                     </View>
-                    <SettingsModal
-                        visible={showSettings}
-                        onClose={() => setShowSettings(false)}
-                        onSave={setWebHost}
-                    />
+                </TouchableWithoutFeedback>
+                <SettingsModal
+                    visible={showSettings}
+                    onClose={() => setShowSettings(false)}
+                    onSave={setWebHost}
+                />
 
-                    {/* Main content — split view for recipe */}
-                    <View style={styles.content}>
-                        <RecipeView cocktail={selectedCocktail} webHost={webHost} />
-                    </View>
-
-                    {/* Recent drinks footer */}
-                    <RecentStrip recentCocktails={recentCocktails} onSelect={handleSelect} />
+                {/* Main content — split view for recipe */}
+                <View style={styles.content}>
+                    <RecipeView cocktail={selectedCocktail} webHost={webHost} />
                 </View>
-            </TouchableWithoutFeedback>
+
+                {/* Recent drinks footer */}
+                <RecentStrip recentCocktails={recentCocktails} onSelect={handleSelect} />
+            </View>
         </SafeAreaView>
         </SafeAreaProvider>
     );
