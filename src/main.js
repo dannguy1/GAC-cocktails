@@ -1,6 +1,8 @@
 import './components/search-bar.js';
 import './components/recipe-card.js';
 import './components/recent-strip.js';
+import './components/order-panel.js';
+import './components/customer-picker.js';
 
 const app = document.getElementById('app');
 
@@ -23,6 +25,11 @@ content.className = 'app-content';
 const recipeCard = document.createElement('gac-recipe-card');
 content.appendChild(recipeCard);
 app.appendChild(content);
+
+// Order panel — sidebar for active orders
+const orderPanel = document.createElement('gac-order-panel');
+orderPanel.className = 'app-order-panel';
+app.appendChild(orderPanel);
 
 // Fixed footer with recent drinks
 const footer = document.createElement('footer');

@@ -8,6 +8,8 @@ import SearchBar from './components/SearchBar';
 import RecipeView from './components/RecipeView';
 import RecentStrip from './components/RecentStrip';
 import SettingsModal from './components/SettingsModal';
+import OrderPanel from './components/OrderPanel';
+import CustomerBar from './components/CustomerBar';
 import { getCocktailById } from './services/search';
 import { loadRecentDrinks, saveRecentDrink, loadWebHost, getWebHost } from './services/storage';
 import { COLORS, FONTS } from './theme';
@@ -70,10 +72,16 @@ export default function App() {
                     onSave={setWebHost}
                 />
 
+                {/* Customer bar — numbered buttons to assign orders */}
+                <CustomerBar cocktail={selectedCocktail} />
+
                 {/* Main content — split view for recipe */}
                 <View style={styles.content}>
                     <RecipeView cocktail={selectedCocktail} webHost={webHost} />
                 </View>
+
+                {/* Order panel */}
+                <OrderPanel />
 
                 {/* Recent drinks footer */}
                 <RecentStrip recentCocktails={recentCocktails} onSelect={handleSelect} />

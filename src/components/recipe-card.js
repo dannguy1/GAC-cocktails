@@ -1,5 +1,5 @@
 import './ingredient-checklist.js';
-import { OrderService } from '../services/order-service.js';
+import './customer-picker.js';
 
 function esc(str) {
   const d = document.createElement('div');
@@ -335,13 +335,20 @@ export class RecipeCard extends HTMLElement {
     const orderBtn = this.shadowRoot.querySelector('.btn-order');
     if (orderBtn) {
       orderBtn.addEventListener('click', () => {
-        OrderService.addOrder(c);
-        orderBtn.classList.add('ordered');
-        orderBtn.innerHTML = `<span class="btn-order-icon">✓</span> Ordered`;
-        setTimeout(() => {
-          orderBtn.classList.remove('ordered');
-          orderBtn.innerHTML = `<span class="btn-order-icon">🛒</span> Order`;
-        }, 2000);
+        let picker = this.shadowRoot.querySelector('gac-customer-picker');
+        if (!picker) {
+          picker = document.createElement('gac-customer-picker');
+          picker.addEventListener('order-placed', () => {
+            orderBtn.classList.add('ordered');
+            orderBtn.innerHTML = `<span class="btn-order-icon">✓</span> Ordered`;
+            setTimeout(() => {
+              orderBtn.classList.remove('ordered');
+              orderBtn.innerHTML = `<span class="btn-order-icon">🛒</span> Order`;
+            }, 2000);
+          });
+          this.shadowRoot.appendChild(picker);
+        }
+        picker.show(c);
       });
     }
   }
